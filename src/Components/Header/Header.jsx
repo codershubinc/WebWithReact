@@ -1,20 +1,45 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom' 
-import useThemeContext, { ThemeContext , ThemeProvider } from '../../Contexts/ThemeContext/ThemeContext'
+import {  NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import useThemeContext from '../../Contexts/ThemeContext/ThemeContext'
 function Header() {
+    const [theThemeMode, setTheThemeMode] = useState("light")
+    const [src, setSrc] = useState("https://cdn-icons-png.flaticon.com/512/439/439842.png")
+    const { themeMode, darkTheme, lightTheme } = useThemeContext()
+    const onChangeBtn = () => {
+        if (theThemeMode === 'dark') {
+            setTheThemeMode("light")
+            localStorage.setItem("theme", "light")
+            setSrc("https://cdn-icons-png.flaticon.com/512/439/439842.png")
+            console.log(localStorage.getItem("theme"));
 
-const { themeMode , darkTheme, lightTheme  } =  useThemeContext()
-    const onChangeBtn = (e) => {
-        const darkModeStatus = e.currentTarget.checked
-        if (darkModeStatus) {
-            darkTheme()
         } else {
-            lightTheme()
+            setTheThemeMode("dark")
+            localStorage.setItem("theme", "dark")
+            setSrc("https://cdn-icons-png.flaticon.com/512/13660/13660722.png")
+            console.log(localStorage.getItem("theme"));
         }
     }
+    useEffect(() => {
+        if (localStorage.getItem("theme") === "dark") {
+            setTheThemeMode("dark")
+            setSrc("https://cdn-icons-png.flaticon.com/512/13660/13660722.png")
+        }
+        else {
+            setTheThemeMode("light")
+            setSrc("https://cdn-icons-png.flaticon.com/512/439/439842.png")
+        }
+    }, [theThemeMode])
+
+    /*     actual change in theme */
+    useEffect(() => {
+        document.querySelector('html').classList.remove("light", "dark")
+        document.querySelector('html').classList.add(theThemeMode)
+        
+    }, [theThemeMode])
 
     return (
-        <header className='sticky top-0 dark:bg-black bg-slate-300  '>
+        <header className='sticky top-0 dark:bg-black bg-slate-300 w-full '>
             <div className='flex    p-1 rounded-lg dark:bg-[#212121] bg-slate-300 justify-between'>
                 <div className='flex border-solid border-2 border-gray-700  p-1 rounded-2xl gap-1 '>
                     <img src="https://raw.githubusercontent.com/CodersHub-in/Portfolio/main/src/Components/Header/resources/RoBoico.png" className='h-10 w-10 rounded-[50%]' alt="" />
@@ -44,19 +69,9 @@ const { themeMode , darkTheme, lightTheme  } =  useThemeContext()
 
                 </div>
                 <div className='flex  justify-center text-center items-center p-1 '>
-                    <div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/13660/13660722.png" id='theme' className=' h-[35px]  ' onClick={onChangeBtn} alt="" />
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input
-                                type="checkbox"
-                                value=""
-                                className="sr-only peer"
-                                onChange={onChangeBtn}
-                                checked={themeMode === "dark"}
-                            />
-                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                            <span className="ml-3 text-sm font-medium text-gray-900">Toggle Theme</span>
-                        </label>
+                    <div className='flex'>
+                        <img src={src} id='themeee' className=' h-[35px] transition-all  cursor-pointer ' onClick={onChangeBtn} alt="" />
+
                     </div>
                 </div>
             </div>

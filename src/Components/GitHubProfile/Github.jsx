@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 function Github() {
   const [data, setData] = useState({});
   const id = useParams()
+
+
   useEffect(() => {
     if (id) {
-
-
       fetch("https://api.github.com/users/" + id.id)
         .then((response) => response.json())
         .then((data) => {
@@ -15,6 +15,9 @@ function Github() {
 
     }
   }, []);
+
+
+
   return (
     <div className="bg-black h-[100vh] text-white  " >
       <div className="flex justify-center text-center  ">
@@ -35,11 +38,12 @@ function Github() {
             <h1>{"Followers are " + (data.followers ? data.followers : "0")}</h1>
             {/* here is social media links */}
             <div>
-                <a href={data.html_url} target="_blank" >
-              <img src="https://cdn-icons-png.flaticon.com/512/2111/2111425.png" className="invert h-[30px]  " alt="" />
-            </a>
+              <a href={data.html_url} target="_blank" >
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111425.png" className="invert h-[30px]  " alt="" />
+              </a>
             </div>
-          
+
+
           </div>
         </div>
       </div>
