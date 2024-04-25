@@ -1,49 +1,27 @@
 import React from 'react'
-import {  NavLink } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import useThemeContext from '../../Contexts/ThemeContext/ThemeContext'
+import { NavLink } from 'react-router-dom'
+import ThemeBtn from './ThemeBtn/ThemeBtn'
+import SideBar from '../SideBar/SideBar'
+import SideBarBtn from '../SideBar/SideBarBtn/SideBarBtn'
 function Header() {
-    const [theThemeMode, setTheThemeMode] = useState("light")
-    const [src, setSrc] = useState("https://cdn-icons-png.flaticon.com/512/439/439842.png")
-    const { themeMode, darkTheme, lightTheme } = useThemeContext()
-    const onChangeBtn = () => {
-        if (theThemeMode === 'dark') {
-            setTheThemeMode("light")
-            localStorage.setItem("theme", "light")
-            setSrc("https://cdn-icons-png.flaticon.com/512/439/439842.png")
-            console.log(localStorage.getItem("theme"));
 
-        } else {
-            setTheThemeMode("dark")
-            localStorage.setItem("theme", "dark")
-            setSrc("https://cdn-icons-png.flaticon.com/512/13660/13660722.png")
-            console.log(localStorage.getItem("theme"));
-        }
-    }
-    useEffect(() => {
-        if (localStorage.getItem("theme") === "dark") {
-            setTheThemeMode("dark")
-            setSrc("https://cdn-icons-png.flaticon.com/512/13660/13660722.png")
-        }
-        else {
-            setTheThemeMode("light")
-            setSrc("https://cdn-icons-png.flaticon.com/512/439/439842.png")
-        }
-    }, [theThemeMode])
 
-    /*     actual change in theme */
-    useEffect(() => {
-        document.querySelector('html').classList.remove("light", "dark")
-        document.querySelector('html').classList.add(theThemeMode)
-        
-    }, [theThemeMode])
 
     return (
-        <header className='sticky top-0 dark:bg-black bg-slate-300 w-full '>
+
+        <header className='sticky top-0 dark:bg-black bg-slate-300 w-full h-14 transition-all '>
+
             <div className='flex    p-1 rounded-lg dark:bg-[#212121] bg-slate-300 justify-between'>
-                <div className='flex border-solid border-2 border-gray-700  p-1 rounded-2xl gap-1 '>
-                    <img src="https://raw.githubusercontent.com/CodersHub-in/Portfolio/main/src/Components/Header/resources/RoBoico.png" className='h-10 w-10 rounded-[50%]' alt="" />
-                    <h2 className='text-3xl dark:text-white'>Web App</h2>
+                <div className='flex'>
+                    <div className='flex justify-center items-center px-1  '>
+                     {/* sideBarBtn */}
+                     <SideBarBtn/>
+                    </div>
+                    <div className='flex border-solid border-2 border-gray-700  p-1 rounded-2xl gap-1 '>
+                        <img src="https://raw.githubusercontent.com/CodersHub-in/Portfolio/main/src/Components/Header/resources/RoBoico.png" className='h-10 w-10 rounded-[50%]' alt="" />
+                        <h2 className='text-3xl dark:text-white'>Web App</h2>
+                    </div>
+
                 </div>
                 <div className='flex gap-1 justify-center text-center items-center p-1 '>
 
@@ -68,14 +46,12 @@ function Header() {
 
 
                 </div>
-                <div className='flex  justify-center text-center items-center p-1 '>
-                    <div className='flex'>
-                        <img src={src} id='themeee' className=' h-[35px] transition-all  cursor-pointer ' onClick={onChangeBtn} alt="" />
-
-                    </div>
-                </div>
+                <ThemeBtn />
             </div>
+            {/* Here is a sidebar containing links */}
+            <SideBar />
         </header>
+
 
     )
 }
