@@ -21,11 +21,11 @@ function Github() {
   return (
     <div className="  bg-white text-black dark:bg-black h-[200vh] dark:text-white   " >
       {/* here is the Card div*/}
-      <div className="flex justify-center text-center  ">
+      <div className="flex justify-center text-center ">
         <h1 className="text-3xl text-center  " >GitHub profile </h1>
       </div>
       <div className="m-2 " >
-        <div className=" flex justify-center text-center w-min-[10vw]  w-max  items-center p-2 border-2 border-solid border-white rounded-xl bg-slate-700  dark:text-white text-black dark:bg-black transition-all shadow-inner shadow-white" >
+        <div className=" flex justify-center text-center w-min-[10vw]  w-max  items-center p-2 border-2 border-solid border-white rounded-xl bg-[#9298a08a]   dark:text-white text-black dark:bg-black transition-all shadow-inner shadow-white" >
 
           {/*          here is the image  and the name */}
           <div className="m-2">

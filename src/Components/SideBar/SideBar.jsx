@@ -7,7 +7,7 @@ function SideBar() {
 
 
     return (
-        <aside className=" sideBar min-h-[70vh] h-min transition-all dark:bg-[#000000] relative   top-0 left-0  border-solid border-2 border-gray-700 dark:text-white bg-slate-300 text-black w-0 invisible overflow-hidden m-3 p-1  rounded-2xl "   >
+        <section className=" sideBar min-h-[70vh] h-min transition-all dark:bg-[#000000] fixed   top-[56px] left-0  border-solid border-2 border-gray-700 dark:text-white bg-slate-300 text-black w-0 invisible overflow-hidden m-3 p-1  rounded-2xl "   >
 
             <div>
                 <NavLink
@@ -23,7 +23,7 @@ function SideBar() {
             <div>s</div>
             <div>s</div>
             <ScocialLinks />
-        </aside>
+        </section>
     )
 }
 

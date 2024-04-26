@@ -5,6 +5,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Layout from '../Layout'
 import Home from './Components/Home/Home'
 import Github from './Components/GitHubProfile/Github'
+import Login from './Components/Login/Login'
 
 
 const router = createBrowserRouter(
@@ -12,6 +13,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<Layout />} >
     <Route path='' element={<Home />} />
     <Route path='/github/:id' element={<Github/>} />
+    <Route path='/login' element={<Login/>} />
   </Route >
   )
 )
