@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import Layout from '../Layout'
-import Home from './Components/Home/Home'
-import Github from './Components/GitHubProfile/Github'
-import Login from './Components/Login/Login'
+import Layout from '../../Layout'
+import Home from '../Components/Home/Home'
+import Github from '../Components/GitHubProfile/Github'
+import Login from '../Components/Login/Login'
 
 
 const router = createBrowserRouter(
