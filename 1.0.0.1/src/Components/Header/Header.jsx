@@ -56,6 +56,16 @@ function Header() {
                     >
                         Login
                     </NavLink>
+                    
+                    <NavLink
+                        to="/signup"
+                        className={({ isActive }) =>
+                            ` flex justify-center text-center items-center  py-2 pr-4 pl-3 duration-200  ${isActive ? "text-orange-700 underline" : "text-black dark:text-white"} 
+                        bg-[rgb(28 31 38)] w-20 h-8 hover:shadow-cyan-500/50 rounded-[30px]  cursor-pointer border-2 border-black border-solid    hover:bg-black     hover:text-orange-700 lg:p-0`
+                        }
+                    >
+                        SignUp
+                    </NavLink>
                     <ThemeBtn />
                 </div>
             </div>

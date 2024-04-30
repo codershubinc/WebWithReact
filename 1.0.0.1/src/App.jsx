@@ -1,13 +1,17 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-
+import Header from './Components/Header/Header'
+import Footer from './Components/Footer/Footer.jsx'
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
-    <>
-
+    <><div className='dark:bg-[#212627] bg-[#c6c7d8]'>
+      <Header />
       <Outlet />
+      <Footer />
+    </div>
+
     </>
   )
 }
