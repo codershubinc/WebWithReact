@@ -2,11 +2,29 @@ import React from 'react'
 import Input from '../Input/Input'
 import { useForm } from 'react-hook-form'
 import Button from '../Button/Button'
+import { Client, Account } from "appwrite";
 import { useState } from 'react'
 
 export default function LoginPage() {
     const { register, handleSubmit } = useForm()
-    const [formData, setFormData] = useState({})
+
+    async function demoLogin(data) {
+        const client = new Client()
+            .setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
+            .setProject('662ab42b7d237361fa26');                 // Your project ID
+
+        const account = new Account(client);
+        console.log(data.email, data.password);
+
+        try {
+            await account.createEmailSession(data.email, data.password)
+            console.log("logged in")
+
+        } catch (error) {
+            console.log("login error" + error);
+        }
+    }
+
     const login = async (data) => {
         setFormData(data)
     }
@@ -16,7 +34,7 @@ export default function LoginPage() {
                 <div className='bg-[#000000a8] w-full m-3 mx-3 rounded-tl-xl rounded-br-xl  '>
                     <p className='text-5xl text-center mb-6 ' >Login</p>
                 </div>
-                <form onSubmit={handleSubmit(login)}  >
+                <form onSubmit={handleSubmit(demoLogin)}  >
                     <div className='   h-max   mx-auto bg-[#000000a8] bg-opacity-50 p-4 rounded-lg  w-full '>
 
                         <div>
@@ -24,6 +42,7 @@ export default function LoginPage() {
                                 label="E-Mail"
                                 type="email"
                                 placeholder="Enter Your E-mail"
+                                value="two@two.com"
                                 {...register("email", {
                                     required: true, validate: {
                                         matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
@@ -37,6 +56,8 @@ export default function LoginPage() {
                                 label="Password"
                                 type="password"
                                 placeholder="Enter Your Password"
+                                
+                                value="12345678"
                                 {...register("password", { required: true })}
                             />
                         </div>
@@ -52,7 +73,9 @@ export default function LoginPage() {
             </div>
             <div>
                 <p>
-
+                <Button className='w-full' onClick={() => logout({ email: "two@two.com", password: "12345678" })}>
+                        Login
+                    </Button>
                 </p>
             </div>
         </section>
