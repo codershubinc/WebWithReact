@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
@@ -14,6 +14,7 @@ export default function PostForm({ post }) {
             status: post?.status || "active",
         },
     });
+    const [loading, setLoding] = useState(false)
 
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
@@ -35,12 +36,14 @@ export default function PostForm({ post }) {
                 navigate(`/post/${dbPost.$id}`);
             }
         } else {
+            setLoding(true)
             const file = await appwriteService.uploadFile(data.image[0]);
 
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id });
+                const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id })
+                    .then(setLoding(false));
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -72,6 +75,7 @@ export default function PostForm({ post }) {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+            {loading ? <div className="fixed top-11">Uploading Please Wait ......</div> : ""}
             <div className="w-2/3 px-2">
                 <Input
                     label="Title :"
@@ -113,7 +117,11 @@ export default function PostForm({ post }) {
                     className="mb-4"
                     {...register("status", { required: true })}
                 />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
+                <Button type="submit"
+                    bgColor={post ? "bg-green-500" : undefined}
+                    className={`w-full ${loading? " opacity-55 cursor-progress":""}`}
+
+                >
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>
