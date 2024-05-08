@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
@@ -15,10 +15,12 @@ export default function PostForm({ post }) {
         },
     });
 
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
+        setLoading(true);
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
@@ -29,18 +31,22 @@ export default function PostForm({ post }) {
             const dbPost = await appwriteService.updatePost(post.$id, {
                 ...data,
                 featuredImage: file ? file.$id : undefined,
-            });
+            })
 
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
             }
         } else {
-            const file = await appwriteService.uploadFile(data.image[0]);
+            setLoading(true);
+            const file = await appwriteService.uploadFile(data.image[0])
 
             if (file) {
+                setLoading(true);
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id });
+                const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id }).then(
+                    setLoading(false)
+                );
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -72,6 +78,14 @@ export default function PostForm({ post }) {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+            {loading ?
+                <div
+                    className="fixed flex gap-3 top-[50%] left-[35%] bg-black w-max p-5 rounded-3xl text-white  z-10">
+                    Uploading Please Wait ......
+                    <div
+                        className="w-6 h-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" >
+                    </div>
+                </div> : ""}
             <div className="w-2/3 px-2">
                 <Input
                     label="Title :"
