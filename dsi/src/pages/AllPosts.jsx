@@ -18,14 +18,6 @@ function AllPosts() {
 
     return (
         <div className='w-full py-8 '>
-            {loading ?
-                <div
-                    className="fixed flex gap-3 top-[50%] left-[35%] bg-black w-max p-5 rounded-3xl text-white  z-10">
-                    Uploading Please Wait ......
-                    <div
-                        className="w-6 h-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" >
-                    </div>
-                </div> : ""}
             <Container>
                 <div className='flex flex-wrap  justify-center '>
                     {posts.map((post) => (

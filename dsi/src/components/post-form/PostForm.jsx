@@ -14,12 +14,13 @@ export default function PostForm({ post }) {
             status: post?.status || "active",
         },
     });
-    const [loading, setLoding] = useState(false)
 
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
+        setLoading(true);
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
@@ -36,14 +37,16 @@ export default function PostForm({ post }) {
                 navigate(`/post/${dbPost.$id}`);
             }
         } else {
-            setLoding(true)
-            const file = await appwriteService.uploadFile(data.image[0]);
+            setLoading(true);
+            const file = await appwriteService.uploadFile(data.image[0])
 
             if (file) {
+                setLoading(true);
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id })
-                    .then(setLoding(false));
+                const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id }).then(
+                    setLoading(false)
+                );
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -75,7 +78,14 @@ export default function PostForm({ post }) {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            {loading ? <div className="fixed top-11">Uploading Please Wait ......</div> : ""}
+            {loading ?
+                <div
+                    className="fixed flex gap-3 top-[50%] left-[35%] bg-black w-max p-5 rounded-3xl text-white  z-10">
+                    Uploading Please Wait ......
+                    <div
+                        className="w-6 h-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" >
+                    </div>
+                </div> : ""}
             <div className="w-2/3 px-2">
                 <Input
                     label="Title :"
@@ -117,11 +127,7 @@ export default function PostForm({ post }) {
                     className="mb-4"
                     {...register("status", { required: true })}
                 />
-                <Button type="submit"
-                    bgColor={post ? "bg-green-500" : undefined}
-                    className={`w-full ${loading? " opacity-55 cursor-progress":""}`}
-
-                >
+                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>
