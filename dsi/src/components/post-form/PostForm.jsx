@@ -31,7 +31,7 @@ export default function PostForm({ post }) {
                 ...data,
                 featuredImage: file ? file.$id : undefined,
             });
-
+            
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
             }
