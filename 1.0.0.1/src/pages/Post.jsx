@@ -45,7 +45,7 @@ export default function Post() {
                     <img
                         src={appwriteService.getFilePreview(post.featuredImage)}
                         alt={post.title}
-                        className="rounded-xl"
+                        className="rounded-xl  "
                     />
                     {isAuthor ? (
                         <div className="absolute right-6 top-6">
